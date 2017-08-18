@@ -1,12 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using VideoConsoleProgram;
 using static System.Console;
 
 
 public class MainClass
+
 {
+
+    static List<Video> videos = new List<Video>();
+    private static int id = 1;
+
+
+
     public static void Main()
     {
+
+        Video vid1 = new Video()
+        {
+            Genre = "Horror",
+            Year = 1977,
+            VideoName = "Cujo",
+            Id = id++
+        };
+        
+        videos.Add(vid1);
+       
         char choice;
 
         for (;;)
@@ -14,12 +33,10 @@ public class MainClass
             do
             {
 
-                WriteLine("------------------------------");
-                WriteLine();
-                WriteLine(" Video Menu ");
-                WriteLine();
-                WriteLine("Choose one (q to quit): ");
-                WriteLine();
+                WriteLine("------------------------------\n");
+                WriteLine(" Video Menu \n");
+                WriteLine("Choose one (q to quit):\n ");
+
 
 
                 string[] menuItems =
@@ -57,24 +74,14 @@ public class MainClass
             {
                 case '1':
 
-                    List<string> videos = new List<string>()
-                    {
-                            "The Ring",
-                            "The Shining",
-                            "I Kina spise de hunde",
-                            "Frozen"
-
-                    };
-                    var i = 0;
-                    while (i < videos.Count)
-                    {
-                        WriteLine((i + 1) + ". " + videos[i]);
-                        i++;
-                    }
+                    ListVideos();
 
                     break;
                 case '2':
-                    WriteLine("This will Create a Video");
+
+
+                    CreateVideo();
+
                     break;
                 case '3':
                     WriteLine("This will edit a Video");
@@ -83,11 +90,67 @@ public class MainClass
                     WriteLine("This will search for Videos");
                     break;
                 case '5':
-                    WriteLine("This will delete a Video");
+                    DeleteVideo();
                     break;
 
             }
 
         }
+    }
+
+    private static void DeleteVideo()
+    {
+        Clear();
+        //WriteLine("Enter a Video Id: ");
+        int id;
+        while (!int.TryParse(ReadLine(), out id))
+        {
+            WriteLine("Please insert a Id");
+        }
+
+        Video videoFound;
+
+        foreach (var Video in videos)
+        {
+            if (Video.Id == id)      
+            {
+                WriteLine(Video.VideoName);
+            }
+        }
+
+
+    }
+
+    private static void CreateVideo()
+    {
+        Clear();
+        WriteLine("Input Name of Video: ");
+        //The first ReadLine is skipped because I'm using Console.Read for a Char as my menu choice. Line 82.
+        ReadLine();
+        string vName = ReadLine(); 
+        WriteLine("Input Genre of Video: ");
+        var vGenre = ReadLine();
+        WriteLine("Input Year of Video: ");
+        int vYear = Convert.ToInt32(ReadLine());
+
+
+        videos.Add(new Video() {
+            VideoName = vName,
+            Genre = vGenre,
+            Year = vYear,
+            Id = id++
+
+        });
+    }
+
+    private static void ListVideos()
+    {
+        Console.Clear();
+        WriteLine("List of Videos");
+        foreach (var Video in videos)
+        {
+            WriteLine($"Name: {Video.VideoName}   Genre: {Video.Genre}   Year: {Video.Year}   Id:{Video.Id}");
+        }
+        WriteLine("");
     }
 }
