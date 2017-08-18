@@ -32,10 +32,9 @@ public class MainClass
         {
             do
             {
+                
 
-                WriteLine("------------------------------\n");
-                WriteLine(" Video Menu \n");
-                WriteLine("Choose one (q to quit):\n ");
+               
 
 
 
@@ -47,6 +46,10 @@ public class MainClass
                     "Search Videos",
                     "Delete a Video"
                 };
+
+                WriteLine("------------------------------\n");
+                WriteLine(" Video Menu \n");
+                WriteLine("Choose one (q to quit):\n ");
 
                 for (int i = 0; i < menuItems.Length; i++)
                 {
@@ -84,10 +87,10 @@ public class MainClass
 
                     break;
                 case '3':
-                    WriteLine("This will edit a Video");
+                    EditVideo();
                     break;
                 case '4':
-                    WriteLine("This will search for Videos");
+                    FindVideoById();
                     break;
                 case '5':
                     DeleteVideo();
@@ -96,6 +99,21 @@ public class MainClass
             }
 
         }
+    }
+
+    private static void EditVideo()
+    {
+        Clear();
+        var Video = FindVideoById();
+        WriteLine("Input Name of Video: ");
+        Video.VideoName = ReadLine();
+        WriteLine("Input Genre of Video: ");
+        Video.Genre = ReadLine();
+        WriteLine("Input Year of Video: ");
+        Video.Year = Convert.ToInt32(ReadLine());
+
+
+        
     }
 
     private static void DeleteVideo()
@@ -108,14 +126,22 @@ public class MainClass
             WriteLine("Please insert a Id");
         }
 
-        Video videoFound;
+        Video videoFound = null;
 
         foreach (var Video in videos)
         {
             if (Video.Id == id)      
             {
-                WriteLine(Video.VideoName);
+                videoFound = Video;
             }
+        }
+
+        if (videoFound != null)
+        {
+            WriteLine("Video " + videoFound.VideoName + " is deleted!");
+            WriteLine("Press any key to continue");
+            ReadLine();
+            videos.Remove(videoFound);
         }
 
 
@@ -152,5 +178,28 @@ public class MainClass
             WriteLine($"Name: {Video.VideoName}   Genre: {Video.Genre}   Year: {Video.Year}   Id:{Video.Id}");
         }
         WriteLine("");
+    }
+
+    private static Video FindVideoById()
+    {
+        Clear();
+        int id;
+        while (!int.TryParse(ReadLine(), out id))
+        {
+            WriteLine("Please insert a Id");
+        }
+
+        
+
+        foreach (var Video in videos)
+        {
+            if (Video.Id == id)
+            {
+                WriteLine("Video " + Video.VideoName + " found");
+                return Video;
+                
+            }
+        }
+        return null;
     }
 }
