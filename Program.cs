@@ -76,15 +76,10 @@ public class MainClass
             switch (choice)
             {
                 case '1':
-
                     ListVideos();
-
                     break;
                 case '2':
-
-
                     CreateVideo();
-
                     break;
                 case '3':
                     EditVideo();
