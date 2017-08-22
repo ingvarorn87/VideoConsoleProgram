@@ -8,8 +8,8 @@ public class MainClass
 
 {
 
-    static List<Video> videos = new List<Video>();
-    private static int id = 1;
+    //static List<Video> videos = new List<Video>();
+    //private static int id = 1;
 
 
 
