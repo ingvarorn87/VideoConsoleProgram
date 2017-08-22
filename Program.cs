@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using VideoConsoleBLL;
 using VideoConsoleProgram;
 using static System.Console;
 
@@ -7,11 +8,7 @@ using static System.Console;
 public class MainClass
 
 {
-
-    //static List<Video> videos = new List<Video>();
-    //private static int id = 1;
-
-
+    static BLLFacade bllFacade = new BLLFacade();
 
     public static void Main()
     {
@@ -21,18 +18,18 @@ public class MainClass
             Genre = "Horror",
             Year = 1977,
             VideoName = "Cujo",
-            Id = id++
+            
         };
         Video vid2 = new Video()
         {
             Genre = "Thriller",
             Year = 1996,
             VideoName = "Jurassic Park",
-            Id = id++
+         
         };
 
-        videos.Add(vid1);
-        videos.Add(vid2);
+        bllFacade.VideoService.Create(vid1);
+        bllFacade.VideoService.Create(vid2);
 
         char choice;
 
@@ -108,45 +105,36 @@ public class MainClass
     {
         Clear();
         var Video = FindVideoById();
-        WriteLine("Input Name of Video: ");
-        Video.VideoName = ReadLine();
-        WriteLine("Input Genre of Video: ");
-        Video.Genre = ReadLine();
-        WriteLine("Input Year of Video: ");
-        Video.Year = Convert.ToInt32(ReadLine());
-
-
-        
+        if (Video != null)
+        {
+            WriteLine("Input Name of Video: ");
+            Video.VideoName = ReadLine();
+            WriteLine("Input Genre of Video: ");
+            Video.Genre = ReadLine();
+            WriteLine("Input Year of Video: ");
+            Video.Year = Convert.ToInt32(ReadLine());
+        }
+       else
+        {
+            WriteLine("Video not Found");
+            WriteLine("");
+        }
+  
     }
 
     private static void DeleteVideo()
     {
-        Clear();
-        //WriteLine("Enter a Video Id: ");
-        int id;
-        while (!int.TryParse(ReadLine(), out id))
-        {
-            WriteLine("Please insert a Id");
-        }
 
-        Video videoFound = null;
-
-        foreach (var Video in videos)
-        {
-            if (Video.Id == id)      
-            {
-                videoFound = Video;
-            }
-        }
-
+        var videoFound = FindVideoById();
         if (videoFound != null)
         {
-            WriteLine("Video " + videoFound.VideoName + " is deleted!");
-            WriteLine("Press any key to continue");
-            ReadLine();
-            videos.Remove(videoFound);
+            bllFacade.VideoService.Delete(videoFound.Id);
         }
-
+        else
+        {
+            WriteLine("Video not Found");
+            WriteLine("");
+        }
 
     }
 
@@ -163,20 +151,21 @@ public class MainClass
         int vYear = Convert.ToInt32(ReadLine());
 
 
-        videos.Add(new Video() {
-            VideoName = vName,
-            Genre = vGenre,
-            Year = vYear,
-            Id = id++
+       bllFacade.VideoService.Create(new Video() {
 
-        });
+       VideoName = vName,
+       Genre = vGenre,
+       Year = vYear,
+     
+
+       });
     }
 
     private static void ListVideos()
     {
         Console.Clear();
         WriteLine("List of Videos");
-        foreach (var Video in videos)
+        foreach (var Video in bllFacade.VideoService.GetAll())
         {
             WriteLine($" Id:{Video.Id}  Year: {Video.Year}  Name: {Video.VideoName}   Genre: {Video.Genre} ");
         }
@@ -194,15 +183,7 @@ public class MainClass
 
         
 
-        foreach (var Video in videos)
-        {
-            if (Video.Id == id)
-            {
-                WriteLine("Video " + Video.VideoName + " found");
-                return Video;
-                
-            }
-        }
-        return null;
+       
+        return bllFacade.VideoService.Get(id);
     }
 }
