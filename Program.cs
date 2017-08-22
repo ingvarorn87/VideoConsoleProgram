@@ -23,9 +23,17 @@ public class MainClass
             VideoName = "Cujo",
             Id = id++
         };
-        
+        Video vid2 = new Video()
+        {
+            Genre = "Thriller",
+            Year = 1996,
+            VideoName = "Jurassic Park",
+            Id = id++
+        };
+
         videos.Add(vid1);
-       
+        videos.Add(vid2);
+
         char choice;
 
         for (;;)
@@ -170,7 +178,7 @@ public class MainClass
         WriteLine("List of Videos");
         foreach (var Video in videos)
         {
-            WriteLine($"Name: {Video.VideoName}   Genre: {Video.Genre}   Year: {Video.Year}   Id:{Video.Id}");
+            WriteLine($" Id:{Video.Id}  Year: {Video.Year}  Name: {Video.VideoName}   Genre: {Video.Genre} ");
         }
         WriteLine("");
     }
