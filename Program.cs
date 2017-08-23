@@ -130,11 +130,11 @@ public class MainClass
         {
             bllFacade.VideoService.Delete(videoFound.Id);
         }
-        else
-        {
-            WriteLine("Video not Found");
-            WriteLine("");
-        }
+        
+        var delResponse = videoFound == null ?
+            "Video not Found" : $"Video {"" + videoFound.VideoName } was deleted";
+        WriteLine(delResponse);
+
 
     }
 
