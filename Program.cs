@@ -37,11 +37,6 @@ public class MainClass
         {
             do
             {
-                
-
-               
-
-
 
                 string[] menuItems =
                 {
@@ -185,5 +180,6 @@ public class MainClass
 
        
         return bllFacade.VideoService.Get(id);
+        WriteLine("");
     }
 }
