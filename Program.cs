@@ -108,6 +108,7 @@ public class MainClass
             Video.Genre = ReadLine();
             WriteLine("Input Year of Video: ");
             Video.Year = Convert.ToInt32(ReadLine());
+            bllFacade.VideoService.Update(Video);
         }
        else
         {
