@@ -44,7 +44,8 @@ public class MainClass
                     "Create a Video",
                     "Edit a Video",
                     "Search Videos",
-                    "Delete a Video"
+                    "Delete a Video",
+                    "Add Videos"
                 };
 
                 WriteLine("------------------------------\n");
@@ -63,7 +64,7 @@ public class MainClass
                 }
                 while (choice == '\n' | choice == '\r');
             }
-            while (choice < '1' | choice > '5' & choice != 'q');
+            while (choice < '1' | choice > '6' & choice != 'q');
 
             if (choice == 'q')
             {
@@ -90,10 +91,40 @@ public class MainClass
                 case '5':
                     DeleteVideo();
                     break;
+                case '6':
+                    CreateManyVideos();
+                    break;
 
             }
 
         }
+    }
+
+    private static void CreateManyVideos()
+    {
+        Clear();
+        WriteLine("Add Videos");
+
+         bool GetYorN()
+        {
+            ConsoleKey response; 
+
+            do
+            {
+                while (Console.KeyAvailable) 
+                    Console.ReadKey();
+
+                Console.Write("Y or N? "); 
+                response = Console.ReadKey().Key; 
+                Console.WriteLine(); 
+            } while (response != ConsoleKey.Y && response != ConsoleKey.N);
+
+            
+            return response == ConsoleKey.Y;
+        }
+
+        GetYorN();
+
     }
 
     private static void EditVideo()
@@ -138,7 +169,6 @@ public class MainClass
     {
         Clear();
         WriteLine("Input Name of Video: ");
-        //The first ReadLine is skipped because I'm using Console.Read for a Char as my menu choice. Line 82.
         ReadLine();
         string vName = ReadLine(); 
         WriteLine("Input Genre of Video: ");
